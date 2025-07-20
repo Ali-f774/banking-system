@@ -32,15 +32,11 @@ public class BankManagement implements BankingOperations{
 
     @Override
     public void transfer(long originAccountNumber, long destinationAccountNumber, double amount)throws SQLException {
-        sql = "UPDATE account SET balance = balance ? "+amount+" WHERE account_number = ?";
-        PreparedStatement statement = DBConnection.getConnection().prepareStatement(sql);
-        statement.setString(1,"-");
-        statement.setString(2,originAccountNumber+"");
-        statement.addBatch();
-        statement.setString(1,"+");
-        statement.setString(2,destinationAccountNumber+"");
-        statement.addBatch();
-        statement.executeBatch();
+        sql = "UPDATE account SET balance = balance - "+amount+" WHERE account_number = "+originAccountNumber;
+        Statement statement = DBConnection.getConnection().createStatement();
+        statement.executeUpdate(sql);
+        sql = "UPDATE account SET balance = balance + "+amount+" WHERE account_number = "+destinationAccountNumber;
+        statement.executeUpdate(sql);
         System.out.println("Successful Transfer");
     }
 
