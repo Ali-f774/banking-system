@@ -29,6 +29,7 @@ public class Main {
         bankManagement.transfer(20,50,90);
 
         bankManagement.deleteAccount(40);
+        bankManagement.registerTransaction();
 
     }
 }
